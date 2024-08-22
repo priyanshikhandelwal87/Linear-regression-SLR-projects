@@ -1,0 +1,190 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "bf00dd64",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import gradio as gr\n",
+    "import pickle\n",
+    "\n",
+    "import warnings\n",
+    "warnings.filterwarnings('ignore')\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "76f405f7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Load your trained model\n",
+    "with open('lr_model.pkl','rb') as file:\n",
+    "    loaded_model = pickle.load(file)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "fa0ad494",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([3.61184547])"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "loaded_model.predict([[1,1,1,1,1]])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "6c7225b5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def pred_target(blast_slag,flyash,super_plas,age,cem_water):\n",
+    "    \n",
+    "    input_data = [[blast_slag,flyash,super_plas,age,cem_water]]\n",
+    "    \n",
+    "    pred = loaded_model.predict(input_data)\n",
+    "    \n",
+    "    return round(pred[0],2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "e1281ed8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Design the interface /front end of the application\n",
+    "\n",
+    "ifac = gr.Interface(fn=pred_target,\n",
+    "                   inputs=[gr.Number(label='Blast Furnace Slag Kg/m3'),\n",
+    "                          gr.Number(label='Fly ash content Kg/m3'),\n",
+    "                          gr.Number(label='Superplasticizer Kg/m3'),\n",
+    "                          gr.Number(label='Age (Days)'),\n",
+    "                          gr.Number(label='Cem wat ratio W/V')],\n",
+    "                   \n",
+    "                    outputs= gr.Textbox(label='Compresive Strength (MPa)'),\n",
+    "                   title= 'Yashu Constructions pvt.Ltd.',\n",
+    "                   description= 'Thhis application calculates the compresive strength',\n",
+    "                   allow_flagging = 'never')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "b9bddfe4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Running on local URL:  http://127.0.0.1:7860\n",
+      "\n",
+      "To create a public link, set `share=True` in `launch()`.\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div><iframe src=\"http://127.0.0.1:7860/\" width=\"100%\" height=\"500\" allow=\"autoplay; camera; microphone; clipboard-read; clipboard-write;\" frameborder=\"0\" allowfullscreen></iframe></div>"
+      ],
+      "text/plain": [
+       "<IPython.core.display.HTML object>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "text/plain": []
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ifac.launch('share = True')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b40ea79b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "32bf945f",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ddb9fea4",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "242756a3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "29b706ce",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
